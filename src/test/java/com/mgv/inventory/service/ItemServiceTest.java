@@ -110,7 +110,7 @@ public class ItemServiceTest {
 
     }
 
-    /*@Test
+    @Test
     public void testDeleteItem(){
         String id = UUID.randomUUID().toString();
         Item deleteItem = new Item();
@@ -123,5 +123,5 @@ public class ItemServiceTest {
         verify(itemRepository, times(1)).deleteById(id);
 
         assertEquals(id, resultItem.getId());
-    }*/
+    }
 }
