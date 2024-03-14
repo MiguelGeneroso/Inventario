@@ -20,5 +20,5 @@ public class Item {
     private String description;
 
     @Column(name = "is_stolen", nullable = false, columnDefinition = "boolean default false")
-    private Boolean isStolen;
+    private Boolean isStolen = false;
 }

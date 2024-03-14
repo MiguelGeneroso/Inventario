@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ItemServiceTest {
@@ -41,14 +41,15 @@ public class ItemServiceTest {
     @Test
     public void testGetItemById(){
         String id = UUID.randomUUID().toString();
-        Optional<Item> item = Optional.of(new Item());
+        Item newItem = new Item();
+        Optional<Item> item = Optional.of(newItem);
 
         when(itemRepository.findById(id)).thenReturn(item);
 
         Item resultItem = itemService.getItemById(id);
 
-        assertNotNull(item);
-        assertEquals(item, resultItem);
+        assertNotNull(resultItem);
+        assertEquals(newItem, resultItem);
     }
 
     @Test
@@ -108,4 +109,19 @@ public class ItemServiceTest {
         assertEquals(false, resultUpdatedItem.getIsStolen());
 
     }
+
+    /*@Test
+    public void testDeleteItem(){
+        String id = UUID.randomUUID().toString();
+        Item deleteItem = new Item();
+        deleteItem.setId(id);
+
+        when(itemRepository.findById(id)).thenReturn(Optional.of(deleteItem));
+
+        Item resultItem = itemService.deleteItem(id);
+
+        verify(itemRepository, times(1)).deleteById(id);
+
+        assertEquals(id, resultItem.getId());
+    }*/
 }
