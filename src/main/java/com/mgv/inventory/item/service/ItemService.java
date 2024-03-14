@@ -18,15 +18,14 @@ public class ItemService {
     }
 
     public Item getItemById(String id){
-        Item item = itemRepository.findById(id).orElse(null);
-
-        if(item != null){
-            itemRepository.findById(id);
-        }
-        return item;
+        return itemRepository.findById(id).orElse(null);
     }
 
-    public List<Item> createItem(List<Item> items){
+    public Item createItem(Item item){
+        return itemRepository.save(item);
+    }
+
+    public List<Item> createItems(List<Item> items){
         return itemRepository.saveAll(items);
     }
 

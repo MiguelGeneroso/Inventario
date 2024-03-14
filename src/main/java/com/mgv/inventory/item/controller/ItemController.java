@@ -26,10 +26,16 @@ public class ItemController {
         return ResponseEntity.ok(item);
     }
 
-    @PostMapping("/items")
-    public ResponseEntity<List<Item>> createItem(@RequestBody List<Item> items){
-        List<Item> newItem = itemService.createItem(items);
+    @PostMapping("/item")
+    public ResponseEntity<Item> createItem(@RequestBody Item item){
+        Item newItem = itemService.createItem(item);
         return ResponseEntity.ok(newItem);
+    }
+
+    @PostMapping("/items")
+    public ResponseEntity<List<Item>> createItems(@RequestBody List<Item> items){
+        List<Item> newItems = itemService.createItems(items);
+        return ResponseEntity.ok(newItems);
     }
 
     @PutMapping("/items/{id}")

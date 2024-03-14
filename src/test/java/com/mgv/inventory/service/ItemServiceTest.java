@@ -11,9 +11,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,14 +40,72 @@ public class ItemServiceTest {
 
     @Test
     public void testGetItemById(){
-        Item item = new Item();
-
         String id = UUID.randomUUID().toString();
+        Optional<Item> item = Optional.of(new Item());
 
         when(itemRepository.findById(id)).thenReturn(item);
 
         Item resultItem = itemService.getItemById(id);
 
+        assertNotNull(item);
         assertEquals(item, resultItem);
+    }
+
+    @Test
+    public void testGetItemByIdNull(){
+        String id = UUID.randomUUID().toString();
+
+        Item resultItem = itemService.getItemById(id);
+
+        assertNull(resultItem);
+    }
+
+    @Test
+    public void testCreateItem(){
+        Item item = new Item();
+        item.setName("Pala");
+        item.setDescription("Descripción de una pala");
+
+        when(itemRepository.save(item)).thenReturn(item);
+
+        Item resultItem = itemService.createItem(item);
+
+        assertNotNull(resultItem);
+        assertEquals(item,resultItem);
+    }
+
+    @Test
+    public void testCreateItems(){
+        List<Item> items = new ArrayList<Item>();
+        items.add(new Item());
+        items.add(new Item());
+        items.add(new Item());
+
+        when(itemRepository.saveAll(items)).thenReturn(items);
+
+        List<Item> resultItems = itemService.createItems(items);
+
+        assertEquals(items, resultItems);
+    }
+
+    @Test
+    public void testUpdateItem(){
+
+        String id = UUID.randomUUID().toString();
+        Item updateItem = new Item();
+        updateItem.setName("Pala");
+        updateItem.setDescription("Descripción de una pala");
+
+        Item existingItem = new Item();
+        existingItem.setId(id);
+
+        when(itemRepository.findById(id)).thenReturn(Optional.of(existingItem));
+
+        Item resultUpdatedItem = itemService.updateItem(updateItem, id);
+
+        assertEquals("Pala", resultUpdatedItem.getName());
+        assertEquals("Descripción de una pala", resultUpdatedItem.getDescription());
+        assertEquals(false, resultUpdatedItem.getIsStolen());
+
     }
 }
