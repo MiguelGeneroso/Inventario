@@ -49,17 +49,24 @@ public class PersonController {
         return ResponseEntity.ok(updatePerson);
     }
 
-    @PutMapping("persons/{dni}")
-    public ResponseEntity<List<Person>> updatePersons(@RequestBody List<Person> person, @PathVariable String dni){
-        List<Person> updatePersons = personService.updatePersons(person, dni);
+    @PutMapping("/persons")
+    public ResponseEntity<List<Person>> updatePersons(@RequestBody List<Person> person){
+        List<Person> updatePersons = personService.updatePersons(person);
 
         return ResponseEntity.ok(updatePersons);
     }
 
-    @DeleteMapping("person/{dni}")
+    @DeleteMapping("/persons/{dni}")
     public ResponseEntity<Person> deletePerson(@PathVariable String dni){
         Person person = personService.deletePerson(dni);
 
         return ResponseEntity.ok(person);
+    }
+
+    @DeleteMapping("/persons")
+    public ResponseEntity<List<Person>> deletePersons(@RequestBody List<Person> persons){
+        List<Person> personList = personService.deletePersons(persons);
+
+        return  ResponseEntity.ok(personList);
     }
 }

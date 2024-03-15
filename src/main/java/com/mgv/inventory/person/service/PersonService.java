@@ -43,7 +43,7 @@ public class PersonService {
         return updatePerson;
     }
 
-    public List<Person> updatePersons(List<Person> persons, String dni) {
+    public List<Person> updatePersons(List<Person> persons) {
         List<Person> updatePerson = new ArrayList<Person>();
 
         for (Person originalPerson : persons) {
@@ -56,6 +56,8 @@ public class PersonService {
 
             updatePerson.add(person);
         }
+
+        personRepository.saveAll(updatePerson);
         return updatePerson;
     }
 
@@ -68,19 +70,19 @@ public class PersonService {
         return person;
     }
 
-    /*TODO: falta borrar un array de personas*/
-    public Person deletePersons(List<Person> persons){
+    public List<Person> deletePersons(List<Person> persons){
         List<Person> deletePerson = new ArrayList<Person>();
 
         for(Person originalPerson : persons){
             Person person = personRepository.findPersonByDni(originalPerson.getDni());
 
             if(person != null){
+               deletePerson.add(person);
                 personRepository.deleteByDni(person.getDni());
             }
 
         }
 
-        return null;
+        return deletePerson;
     }
 }
