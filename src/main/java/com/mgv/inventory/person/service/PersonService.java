@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 @Service
 public class PersonService {
@@ -22,12 +23,41 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public Person createPerson(Person person){
+    public Person createPerson(Person person) {
+        boolean validDNI = validateDNI(person.getDni());
+
+        if (!validDNI) {
+            throw new IllegalArgumentException("Invalid DNI");
+        }
+
+        Person existingPerson = personRepository.findPersonByDni(person.getDni());
+        if (existingPerson != null) {
+            return null;
+        }
+
         return personRepository.save(person);
     }
 
-    public List<Person> createPersons(List<Person> persons){
-        return personRepository.saveAll(persons);
+    public List<Person> createPersons(List<Person> persons) {
+        List<Person> newPersons = new ArrayList<>();
+
+        for (Person person : persons) {
+            boolean validDNI = validateDNI(person.getDni());
+            if (!validDNI) {
+                throw new IllegalArgumentException("Invalid DNI");
+            }
+
+            Person existingPerson = personRepository.findPersonByDni(person.getDni());
+            if (existingPerson == null) {
+                newPersons.add(person);
+            }
+        }
+
+        if (!newPersons.isEmpty()) {
+            return personRepository.saveAll(newPersons);
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     public Person updatePerson(Person person, String dni){
@@ -65,7 +95,7 @@ public class PersonService {
         Person person = personRepository.findPersonByDni(dni);
 
         if(person != null){
-            personRepository.deleteByDni(dni);
+            personRepository.deleteById(dni);
         }
         return person;
     }
@@ -78,11 +108,31 @@ public class PersonService {
 
             if(person != null){
                deletePerson.add(person);
-                personRepository.deleteByDni(person.getDni());
+                personRepository.deleteById(person.getDni());
             }
 
         }
 
         return deletePerson;
+    }
+
+    private boolean validateDNI(String dni) {
+        dni = dni.trim().toUpperCase();
+
+        if (!dni.matches("\\d{8}[A-HJ-NP-TV-Z]")) {
+            return false;
+        }
+
+        String number = dni.substring(0, 8);
+        char letter = dni.charAt(8);
+
+        char expectedLetter = calculateDNILetter(Integer.parseInt(number));
+
+        return letter == expectedLetter;
+    }
+
+    private char calculateDNILetter(int dniNumber) {
+        String letters = "TRWAGMYFPDXBNJZSQVHLCKE";
+        return letters.charAt(dniNumber % 23);
     }
 }

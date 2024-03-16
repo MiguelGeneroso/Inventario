@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface PersonRepository extends JpaRepository<Person,String> {
     public Person findPersonByDni(String dni);
-    public Person deleteByDni(String dni);
 
 }
