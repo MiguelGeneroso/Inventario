@@ -21,4 +21,7 @@ public class Item {
 
     @Column(name = "is_stolen", nullable = false, columnDefinition = "boolean default false")
     private Boolean isStolen = false;
+
+    @Column(name = "owner", nullable = false, length = 36)
+    private String owner;
 }

@@ -50,4 +50,8 @@ public class ItemService {
         }
         return item;
     }
+
+    public List<Item> getItemsByDni(String dni) {
+        return itemRepository.getItemsByOwner(dni);
+    }
 }

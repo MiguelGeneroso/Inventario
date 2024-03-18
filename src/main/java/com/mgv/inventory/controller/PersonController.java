@@ -1,9 +1,7 @@
 package com.mgv.inventory.controller;
 
 import com.mgv.inventory.entity.Person;
-import com.mgv.inventory.entity.PersonItem;
 import com.mgv.inventory.service.PersonService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +28,6 @@ public class PersonController {
         return  ResponseEntity.ok(persons);
     }
 
-    @GetMapping("/persons/{dni}/items")
-    public ResponseEntity<List<PersonItem>> getPersonAndItems(@PathVariable String dni){
-        List<PersonItem> personItems = personService.getPersonAndItems(dni);
-
-        return ResponseEntity.ok(personItems);
-    }
-
     @PostMapping("/person")
     public ResponseEntity<Person> createPerson(@RequestBody Person person){
         Person newPerson = personService.createPerson(person);
@@ -51,9 +42,9 @@ public class PersonController {
         return ResponseEntity.ok(newPersons);
     }
 
-    @PostMapping("/persons/{dni}/items/{idItem}")
-    public ResponseEntity<PersonItem> addItemToPerson(@PathVariable String dni, @PathVariable String idItem){
-        PersonItem newPersonItem = personService.addItemToPerson(dni, idItem);
+    @PostMapping("/persons/items/{idItem}")
+    public ResponseEntity<Person> getPersonByIdItem(@PathVariable String idItem){
+        Person newPersonItem = personService.getPersonByIdItem(idItem);
 
         return ResponseEntity.ok(newPersonItem);
     }

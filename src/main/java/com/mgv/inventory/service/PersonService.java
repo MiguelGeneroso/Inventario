@@ -1,8 +1,8 @@
 package com.mgv.inventory.service;
 
+import com.mgv.inventory.entity.Item;
 import com.mgv.inventory.entity.Person;
-import com.mgv.inventory.entity.PersonItem;
-import com.mgv.inventory.repository.PersonItemRepository;
+import com.mgv.inventory.repository.ItemRepository;
 import com.mgv.inventory.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PersonService {
     PersonRepository personRepository;
 
     @Autowired
-    PersonItemRepository personItemRepository;
+    ItemRepository itemRepository;
 
     public Person getPersonByDNI(String dni){
         return personRepository.findPersonByDni(dni);
@@ -28,9 +28,6 @@ public class PersonService {
         return personRepository.findAll();
     }
 
-    public List<PersonItem> getPersonAndItems(String dni){
-        return personItemRepository.findPersonItemByIdPerson(dni);
-    }
     public Person createPerson(Person person) {
         boolean validDNI = validateDNI(person.getDni());
 
@@ -61,26 +58,10 @@ public class PersonService {
             }
         }
 
-        if (!newPersons.isEmpty()) {
-            return personRepository.saveAll(newPersons);
-        } else {
-            return Collections.emptyList();
-        }
+        return (!newPersons.isEmpty()) ? personRepository.saveAll(newPersons) : Collections.emptyList();
+
     }
 
-    public PersonItem addItemToPerson(String dni, String idItem){
-        PersonItem existingPersonItem = personItemRepository.findPersonItemByIdItem(idItem);
-
-        if(existingPersonItem == null){
-            PersonItem newPersonItem = new PersonItem();
-            newPersonItem.setIdPerson(dni);
-            newPersonItem.setIdItem(idItem);
-
-            return personItemRepository.save(newPersonItem);
-        }
-
-        return existingPersonItem;
-    }
 
     public Person updatePerson(Person person, String dni){
         Person updatePerson = personRepository.findPersonByDni(dni);
@@ -156,5 +137,10 @@ public class PersonService {
     private char calculateDNILetter(int dniNumber) {
         String letters = "TRWAGMYFPDXBNJZSQVHLCKE";
         return letters.charAt(dniNumber % 23);
+    }
+
+    public Person getPersonByIdItem(String idItem) {
+        Item item = itemRepository.findById(idItem).orElse(null);
+        return personRepository.findById(item.getOwner()).orElse(null);
     }
 }
