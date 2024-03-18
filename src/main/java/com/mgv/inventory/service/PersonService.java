@@ -1,7 +1,9 @@
-package com.mgv.inventory.person.service;
+package com.mgv.inventory.service;
 
-import com.mgv.inventory.person.entity.Person;
-import com.mgv.inventory.person.repository.PersonRepository;
+import com.mgv.inventory.entity.Person;
+import com.mgv.inventory.entity.PersonItem;
+import com.mgv.inventory.repository.PersonItemRepository;
+import com.mgv.inventory.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,9 @@ public class PersonService {
     @Autowired
     PersonRepository personRepository;
 
+    @Autowired
+    PersonItemRepository personItemRepository;
+
     public Person getPersonByDNI(String dni){
         return personRepository.findPersonByDni(dni);
     }
@@ -23,6 +28,9 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public List<PersonItem> getPersonAndItems(String dni){
+        return personItemRepository.findPersonItemByIdPerson(dni);
+    }
     public Person createPerson(Person person) {
         boolean validDNI = validateDNI(person.getDni());
 
@@ -58,6 +66,20 @@ public class PersonService {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    public PersonItem addItemToPerson(String dni, String idItem){
+        PersonItem existingPersonItem = personItemRepository.findPersonItemByIdItem(idItem);
+
+        if(existingPersonItem == null){
+            PersonItem newPersonItem = new PersonItem();
+            newPersonItem.setIdPerson(dni);
+            newPersonItem.setIdItem(idItem);
+
+            return personItemRepository.save(newPersonItem);
+        }
+
+        return existingPersonItem;
     }
 
     public Person updatePerson(Person person, String dni){

@@ -1,7 +1,7 @@
-package com.mgv.inventory.item.controller;
+package com.mgv.inventory.controller;
 
-import com.mgv.inventory.item.entity.Item;
-import com.mgv.inventory.item.service.ItemService;
+import com.mgv.inventory.entity.Item;
+import com.mgv.inventory.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

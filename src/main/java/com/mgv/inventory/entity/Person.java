@@ -1,4 +1,4 @@
-package com.mgv.inventory.person.entity;
+package com.mgv.inventory.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

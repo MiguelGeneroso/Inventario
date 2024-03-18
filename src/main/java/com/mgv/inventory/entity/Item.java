@@ -1,4 +1,4 @@
-package com.mgv.inventory.item.entity;
+package com.mgv.inventory.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,7 +10,7 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id", length = 36)
+    @Column(name = "id", nullable = false, length = 36)
     private String id;
 
     @Column(name = "name", nullable = false, length = 50)

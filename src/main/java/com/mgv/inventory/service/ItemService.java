@@ -1,7 +1,7 @@
-package com.mgv.inventory.item.service;
+package com.mgv.inventory.service;
 
-import com.mgv.inventory.item.entity.Item;
-import com.mgv.inventory.item.repository.ItemRepository;
+import com.mgv.inventory.entity.Item;
+import com.mgv.inventory.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

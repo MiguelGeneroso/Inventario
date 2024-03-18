@@ -1,8 +1,7 @@
 package com.mgv.inventory.service;
 
-import com.mgv.inventory.item.entity.Item;
-import com.mgv.inventory.item.repository.ItemRepository;
-import com.mgv.inventory.item.service.ItemService;
+import com.mgv.inventory.entity.Item;
+import com.mgv.inventory.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
