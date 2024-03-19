@@ -28,6 +28,11 @@ public class PersonService {
         return personRepository.findAll();
     }
 
+    public Person getPersonByIdItem(String idItem) {
+        Item item = itemRepository.findById(idItem).orElse(null);
+        return personRepository.findById(item.getOwner()).orElse(null);
+    }
+
     public Person createPerson(Person person) {
         boolean validDNI = validateDNI(person.getDni());
 
@@ -139,8 +144,4 @@ public class PersonService {
         return letters.charAt(dniNumber % 23);
     }
 
-    public Person getPersonByIdItem(String idItem) {
-        Item item = itemRepository.findById(idItem).orElse(null);
-        return personRepository.findById(item.getOwner()).orElse(null);
-    }
 }

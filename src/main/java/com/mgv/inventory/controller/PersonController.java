@@ -28,6 +28,13 @@ public class PersonController {
         return  ResponseEntity.ok(persons);
     }
 
+    @GetMapping("/persons/items/{idItem}")
+    public ResponseEntity<Person> getPersonByIdItem(@PathVariable String idItem){
+        Person newPersonItem = personService.getPersonByIdItem(idItem);
+
+        return ResponseEntity.ok(newPersonItem);
+    }
+
     @PostMapping("/person")
     public ResponseEntity<Person> createPerson(@RequestBody Person person){
         Person newPerson = personService.createPerson(person);
@@ -42,12 +49,6 @@ public class PersonController {
         return ResponseEntity.ok(newPersons);
     }
 
-    @PostMapping("/persons/items/{idItem}")
-    public ResponseEntity<Person> getPersonByIdItem(@PathVariable String idItem){
-        Person newPersonItem = personService.getPersonByIdItem(idItem);
-
-        return ResponseEntity.ok(newPersonItem);
-    }
 
     @PutMapping("/person/{dni}")
     public ResponseEntity<Person> updatePerson(@RequestBody Person person, @PathVariable String dni){

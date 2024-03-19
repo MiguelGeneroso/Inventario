@@ -26,6 +26,12 @@ public class ItemController {
         return ResponseEntity.ok(item);
     }
 
+    @GetMapping("/persons/{dni}/items")
+    public ResponseEntity<List<Item>> getItemsByDni(@PathVariable String dni){
+        List<Item> items = itemService.getItemsByDni(dni);
+        return ResponseEntity.ok(items);
+    }
+
     @PostMapping("/item")
     public ResponseEntity<Item> createItem(@RequestBody Item item){
         Item newItem = itemService.createItem(item);
@@ -50,9 +56,4 @@ public class ItemController {
         return ResponseEntity.ok(deleteItem);
     }
 
-    @GetMapping("/persons/{dni}/items")
-    public ResponseEntity<List<Item>> getItemsByDni(@PathVariable String dni){
-        List<Item> items = itemService.getItemsByDni(dni);
-        return ResponseEntity.ok(items);
-    }
 }
